@@ -1,0 +1,17 @@
+# One-click deploy blueprint for Render (https://render.com).
+# In the Render dashboard: New + → Blueprint → connect this repo.
+services:
+  - type: web
+    name: volta
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Leave MONGODB_URI unset to use the in-memory store (resets on restart),
+      # or paste a MongoDB Atlas connection string here for real persistence.
+      - key: MONGODB_URI
+        sync: false

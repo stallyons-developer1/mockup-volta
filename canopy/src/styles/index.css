@@ -140,8 +140,9 @@ em { font-style: italic; }
 .menu-overlay__logo { font-family: var(--serif); font-size: clamp(2.4rem, 6vw, 4.2rem); color: var(--golden); line-height: 0.92; text-align: center; text-transform: none; }
 .menu-overlay__nav { display: flex; flex-direction: column; align-items: center; }
 .menu-overlay__line { overflow: hidden; display: block; }
-.menu-overlay__line a { display: block; font-family: var(--serif); font-size: clamp(1.5rem, 3.8vw, 2.5rem); color: var(--cream-2); line-height: 1.28; transition: color .4s var(--ease), transform .45s var(--ease); }
-.menu-overlay__line a:hover { color: var(--lime); font-style: italic; transform: translateX(14px); }
+.menu-overlay__line a { display: block; font-family: var(--serif); font-size: clamp(1.5rem, 3.8vw, 2.5rem); color: var(--cream-2); line-height: 1.28;
+  transition: color .45s var(--ease), transform .55s var(--ease), letter-spacing .45s var(--ease); }
+.menu-overlay__line a:hover { color: var(--lime); transform: translateX(12px) skewX(-9deg); letter-spacing: 0.02em; }
 .menu-overlay__lang { display: flex; align-items: center; gap: 0.7rem; font-size: 0.8rem; letter-spacing: 0.14em; color: rgba(244, 240, 219, 0.4); }
 .menu-overlay__lang button { color: rgba(244, 240, 219, 0.45); transition: color .3s var(--ease); }
 .menu-overlay__lang button.is-on { color: var(--cream-2); }

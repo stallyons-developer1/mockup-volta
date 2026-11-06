@@ -12,6 +12,21 @@ const LINKS = [
   { label: 'Contact', id: 'enquire' },
 ]
 
+// Lotus brand mark (line-art, inherits color).
+function Lotus() {
+  return (
+    <svg viewBox="0 0 120 112" fill="none" aria-hidden="true">
+      <g stroke="currentColor" strokeWidth="4.2" strokeLinejoin="round" strokeLinecap="round">
+        <path d="M60 14C70 35 74 56 60 78C46 56 50 35 60 14Z" />
+        <path transform="rotate(-40 60 80)" d="M60 24C68 43 71 61 60 78C49 61 52 43 60 24Z" />
+        <path transform="rotate(40 60 80)" d="M60 24C68 43 71 61 60 78C49 61 52 43 60 24Z" />
+        <path transform="rotate(-74 60 80)" d="M60 30C67 47 69 63 60 78C51 63 53 47 60 30Z" />
+        <path transform="rotate(74 60 80)" d="M60 30C67 47 69 63 60 78C51 63 53 47 60 30Z" />
+      </g>
+    </svg>
+  )
+}
+
 export default function Nav({ ready }) {
   const inner = useRef(null)
   const overlay = useRef(null)
@@ -57,9 +72,7 @@ export default function Nav({ ready }) {
             <span className="lbl">Menu</span>
           </button>
           <a className="nav__logo" href="#top" onClick={go('top')} aria-label="Canopy">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M12 22V11M12 11C12 7 15 3 21 3C21 9 17 12 12 12M12 11C12 7 9 3 3 3C3 9 7 12 12 12" stroke="currentColor" strokeWidth="1.4" />
-            </svg>
+            <Lotus />
           </a>
           <a className="nav__cta" href="#enquire" onClick={go('enquire')} data-cursor>
             Inquire <span className="arr">→</span>
@@ -68,7 +81,10 @@ export default function Nav({ ready }) {
       </nav>
 
       <div className="menu-overlay" ref={overlay}>
-        <div className="menu-overlay__logo">Canopy</div>
+        <div className="menu-overlay__logo">
+          <span className="menu-overlay__mark"><Lotus /></span>
+          Canopy
+        </div>
         <nav className="menu-overlay__nav">
           {LINKS.map((l) => (
             <span className="menu-overlay__line" key={l.id}>

@@ -38,24 +38,25 @@ export default function ScrollIntro() {
       tl.to('.rail i', { scaleX: 0.08, duration: 0.6 }, '<')
       tl.to({}, { duration: 0.5 })
 
-      // ---- transition 1 → 2 : text swaps, images cross-fade + relocate ----
+      // ---- transition 1 → 2 : text/numbers swap first, images follow with a delay ----
       hide('.s1 .w')
-      tl.to('.f1 .imgB, .f2 .imgB', { opacity: 1, duration: 0.7 }, '<')
-      tl.to('.f1', { x: '-18vw', y: '30vh', rotate: -4, duration: 0.7 }, '<')
-      tl.to('.f2', { x: '24vw', y: '-26vh', rotate: 4, duration: 0.7 }, '<')
       tl.to('.n1', { opacity: 0, yPercent: -100, duration: 0.3 }, '<')
       tl.to('.n2', { opacity: 1, yPercent: 0, duration: 0.3 }, '<')
       tl.to('.rail i', { scaleX: 0.55, duration: 0.6 }, '<')
+      // delayed image cross-fade + relocate
+      tl.to('.f1 .imgB, .f2 .imgB', { opacity: 1, duration: 0.8 }, '<+=0.45')
+      tl.to('.f1', { x: '-18vw', y: '30vh', rotate: -4, duration: 0.9, ease: 'power2.inOut' }, '<')
+      tl.to('.f2', { x: '24vw', y: '-26vh', rotate: 4, duration: 0.9, ease: 'power2.inOut' }, '<')
       show('.s2 .w')
       tl.to({}, { duration: 0.5 })
 
-      // ---- transition 2 → 3 : images relocate again + settle ----
+      // ---- transition 2 → 3 : text/numbers first, images relocate after a delay ----
       hide('.s2 .w')
-      tl.to('.f1', { x: '-2vw', y: '-5vh', rotate: 2, duration: 0.7 }, '<')
-      tl.to('.f2', { x: '2vw', y: '0vh', rotate: -2, duration: 0.7 }, '<')
       tl.to('.n2', { opacity: 0, yPercent: -100, duration: 0.3 }, '<')
       tl.to('.n3', { opacity: 1, yPercent: 0, duration: 0.3 }, '<')
       tl.to('.rail i', { scaleX: 1, duration: 0.6 }, '<')
+      tl.to('.f1', { x: '-2vw', y: '-5vh', rotate: 2, duration: 0.9, ease: 'power2.inOut' }, '<+=0.45')
+      tl.to('.f2', { x: '2vw', y: '0vh', rotate: -2, duration: 0.9, ease: 'power2.inOut' }, '<')
       show('.s3 .w')
       tl.to({}, { duration: 0.4 })
     }, section)

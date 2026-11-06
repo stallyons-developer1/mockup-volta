@@ -93,7 +93,7 @@ export default function Footer() {
       </div>
 
       <div className="footer2__hero">
-        <img src="/img/facade-1.jpg" alt="Canopy" />
+        <img src="/img/footer-bld-2.jpg" alt="Canopy" />
         <div className="footer2__scrim" />
         <h3 className="footer2__brand">Canopy</h3>
         <span className="footer2__copy">© 2026 Canopy. All rights reserved.</span>

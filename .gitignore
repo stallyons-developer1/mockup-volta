@@ -5,3 +5,7 @@ dist/
 *.log
 npm-debug.log*
 .vite/
+
+# Reference-site assets — NOT for publishing (third-party copyrighted code/font)
+canopy/ref-js/
+canopy/public/fonts/

@@ -1,0 +1,14 @@
+node_modules
+dist
+*.log
+
+# dev-only verification scripts
+verify.mjs
+verify2.mjs
+
+# reference source + duplicate asset originals (app uses public/ copies)
+# NOTE: leading slash anchors to this folder so public/media & public/fonts are NOT ignored
+indexsource.html
+/media/
+/font/
+/ref-js/

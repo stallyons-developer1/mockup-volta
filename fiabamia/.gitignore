@@ -1,0 +1,12 @@
+node_modules
+dist
+*.log
+
+# dev-only verification scripts
+verify.mjs
+vtarget.mjs
+capshots.mjs
+capture2.mjs
+
+# raw downloaded reference (not needed for the app)
+/ref-live/

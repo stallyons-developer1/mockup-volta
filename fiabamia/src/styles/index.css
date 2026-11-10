@@ -1,0 +1,152 @@
+/* ============================================================
+   FiabaMia — design system (faithful React rebuild)
+   Fonts: Fraunces (titles) · Jost (UI/body) · Cormorant SC (labels) · Lora · Nunito
+   Palette: deep indigo-black base · cream text · gold (oro) accent
+   ============================================================ */
+
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces.woff2') format('woff2');
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces-italic.woff2') format('woff2');
+  font-weight: 100 900; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/jost.woff2') format('woff2');
+  font-weight: 300 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/jost-italic.woff2') format('woff2');
+  font-weight: 300 500; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant SC';
+  src: url('/fonts/cormorant-400.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant SC';
+  src: url('/fonts/cormorant-300.woff2') format('woff2');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant SC';
+  src: url('/fonts/cormorant-600.woff2') format('woff2');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Nunito';
+  src: url('/fonts/nunito.woff2') format('woff2');
+  font-weight: 200 1000; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/lora.woff2') format('woff2');
+  font-weight: 400 700; font-style: normal; font-display: swap;
+}
+
+:root {
+  /* palette (from live CSS tokens) */
+  --bg: #05040f;
+  --bg-2: #0f0f23;
+  --cream: #f6eedf;
+  --cream-2: #f6eedfc2;
+  --filo: #f6eedf29;        /* hairline */
+  --oro: #f3d38a;           /* gold */
+  --oro-bright: #f5c842;
+  --amber: #fcbb00;
+  --moon: #d4c5f0;
+  --purple: #7c5af0;
+  --purple-light: #c4b0ff;
+  --warm: #e8956d;
+
+  --titolo: 'Fraunces', Georgia, serif;
+  --ui: 'Jost', system-ui, sans-serif;
+  --label: 'Cormorant SC', 'Fraunces', serif;
+  --serif: 'Lora', Georgia, serif;
+  --round: 'Nunito', system-ui, sans-serif;
+
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --maxw: 1360px;
+  --gutter: clamp(20px, 5vw, 72px);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; scroll-behavior: auto; }
+
+body {
+  font-family: var(--ui);
+  background: var(--bg);
+  color: var(--cream);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+img, canvas, video { display: block; max-width: 100%; }
+::selection { background: var(--oro); color: var(--bg); }
+
+/* ---------- type ---------- */
+.label {
+  font-family: var(--label);
+  font-weight: 400;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  font-size: clamp(0.62rem, 0.9vw, 0.8rem);
+  color: var(--cream-2);
+}
+.display {
+  font-family: var(--titolo);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+.display em, .italic-gold {
+  font-style: italic;
+  color: var(--oro);
+  font-weight: 300;
+}
+
+h1, h2, h3 { font-family: var(--titolo); font-weight: 300; line-height: 1.05; }
+
+/* reveal line wrapper */
+.line { display: block; overflow: hidden; }
+.line > span, .line > * { display: block; will-change: transform; }
+
+/* ---------- layout ---------- */
+.container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+section { position: relative; }
+
+/* ---------- buttons ---------- */
+.pill {
+  display: inline-flex; align-items: center; gap: 0.8em;
+  font-family: var(--label); font-size: 0.74rem; letter-spacing: 0.3em; text-transform: uppercase;
+  padding: 1em 1.8em; border-radius: 100px;
+  border: 1px solid var(--filo); color: var(--cream);
+  background: rgba(246, 238, 223, 0.02);
+  transition: border-color .5s var(--ease), background .5s var(--ease), color .5s var(--ease);
+  backdrop-filter: blur(6px);
+}
+.pill:hover { border-color: var(--oro); color: var(--oro); background: rgba(243, 211, 138, 0.06); }
+.pill--solid { background: var(--oro); color: var(--bg); border-color: var(--oro); }
+.pill--solid:hover { background: var(--oro-bright); color: var(--bg); }
+
+/* app */
+#root { position: relative; width: 100%; }
+.app { position: relative; width: 100%; z-index: 1; }
+
+/* fixed starfield canvas sits behind everything */
+.bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-canvas canvas { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

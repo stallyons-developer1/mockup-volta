@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import useSmoothScroll from './hooks/useSmoothScroll.js'
+import useAmbient from './hooks/useAmbient.js'
 import Background from './components/Background.jsx'
 import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
@@ -19,6 +20,7 @@ export default function App() {
   useSmoothScroll()
   const [sound, setSound] = useState(false)
   const toggleSound = () => setSound((s) => !s)
+  useAmbient(sound)
 
   return (
     <>

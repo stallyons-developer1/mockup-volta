@@ -1,11 +1,14 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import Starfield from '../three/Starfield.jsx'
+import { Balloon, Supernova, Trail, Tree } from '../three/Scenes.jsx'
+import { initScrollState } from '../three/scrollState.js'
 import ShootingStars from './ShootingStars.jsx'
 import ErrorBoundary from './ErrorBoundary.jsx'
 
-// Fixed, full-page atmospheric background: CSS nebula + shooting stars + Three.js starfield.
+// Fixed, full-page atmospheric background: CSS nebula + shooting stars + Three.js scenes.
 export default function Background() {
+  useEffect(() => initScrollState(), [])
   return (
     <>
       <div className="nebula" aria-hidden="true" />
@@ -20,6 +23,10 @@ export default function Background() {
           >
             <Suspense fallback={null}>
               <Starfield />
+              <Balloon />
+              <Tree />
+              <Trail />
+              <Supernova />
             </Suspense>
           </Canvas>
         </ErrorBoundary>

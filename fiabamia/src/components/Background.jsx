@@ -1,13 +1,15 @@
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import Starfield from '../three/Starfield.jsx'
+import ShootingStars from './ShootingStars.jsx'
 import ErrorBoundary from './ErrorBoundary.jsx'
 
-// Fixed, full-page atmospheric background: CSS nebula + Three.js starfield.
+// Fixed, full-page atmospheric background: CSS nebula + shooting stars + Three.js starfield.
 export default function Background() {
   return (
     <>
       <div className="nebula" aria-hidden="true" />
+      <ShootingStars />
       <div className="bg-canvas" aria-hidden="true">
         <ErrorBoundary fallback={null}>
           <Canvas

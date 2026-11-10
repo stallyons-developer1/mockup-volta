@@ -10,3 +10,13 @@ capture2.mjs
 
 # raw downloaded reference (not needed for the app)
 /ref-live/
+
+# Next.js mirror experiment (not deployable — kept local only) + extra dev scripts
+/mirror/
+mirror-test.mjs
+debug.mjs
+debug2.mjs
+grab-full.mjs
+grab-rsc.mjs
+shot.mjs
+capture-all.mjs

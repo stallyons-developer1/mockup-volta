@@ -12,6 +12,24 @@
     linear-gradient(180deg, #05040f 0%, #0a0820 45%, #05040f 100%);
 }
 
+/* ---------- shooting stars ---------- */
+.shooting { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.shooting__star {
+  position: absolute; width: var(--len, 140px); height: 1px;
+  background: linear-gradient(90deg, rgba(246,238,223,0), var(--oro) 60%, #fff);
+  opacity: 0; transform: rotate(-24deg);
+  filter: drop-shadow(0 0 4px rgba(243,211,138,.6));
+  animation: shoot var(--dur, 7s) var(--delay, 0s) linear infinite;
+}
+.shooting__star::after { content: ''; position: absolute; right: -2px; top: -1.5px; width: 4px; height: 4px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px 2px rgba(243,211,138,.8); }
+@keyframes shoot {
+  0% { opacity: 0; transform: translate(0, 0) rotate(-24deg); }
+  6% { opacity: 1; }
+  18% { opacity: 1; }
+  28% { opacity: 0; transform: translate(420px, 190px) rotate(-24deg); }
+  100% { opacity: 0; transform: translate(420px, 190px) rotate(-24deg); }
+}
+
 /* ---------- Nav ---------- */
 .nav {
   position: fixed; top: 0; left: 0; width: 100%; z-index: 100;

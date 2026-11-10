@@ -1,0 +1,1 @@
+var e=(e,t)=>{let n;return function(...r){clearTimeout(n),n=setTimeout(()=>e.apply(this,r),t)}},t=()=>typeof window<`u`&&window.matchMedia(`(prefers-reduced-motion: reduce)`).matches;export{t as n,e as t};

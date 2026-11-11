@@ -1,43 +1,65 @@
-// Camera choreography: enter the hall → glass room door opens → inside → covered car
-// → cloth pulls off → exterior parts → interior → the collection.
-// Car sits at origin inside the glass room; the glass door is at +Z (front).
+// Multi-room showroom: enter the building → a corridor of glass rooms, each with a car.
+// Per room: approach → doors open → enter/reveal → exterior & interior features → exit → next room.
+// Add/remove ROOMS entries to scale to 5–6 cars (choreography is generated automatically).
 
-export const STOPS = [
-  { p: 0.00, pos: [2.6, 3.7, 21.5], tgt: [0, 2.3, 8], phase: 'Entering the Pavilion' },
-  { p: 0.06, pos: [1.1, 2.3, 14.0], tgt: [0, 1.6, 2], phase: 'Entering the Pavilion' },
-  { p: 0.13, pos: [4.7, 2.0, 7.6], tgt: [0, 0.7, 0], phase: 'The Reveal' },
-  { p: 0.22, pos: [4.5, 1.0, 5.6], tgt: [0, 0.5, 0.4], phase: 'The Reveal' },
+export const ROOMS = [
   {
-    p: 0.31, pos: [1.9, 0.75, 5.7], tgt: [0, 0.6, 2.4], phase: 'Exterior',
-    card: { n: '01', side: 'left', tag: 'Front', title: 'Sculpted nose & LED matrix', desc: 'Adaptive LED-matrix headlights and an active front splitter channel air into downforce the faster you go.' },
+    color: '#9e1122', name: 'Rosso Corsa', code: 'AV-01',
+    features: [
+      { tag: 'Front', title: 'Sculpted nose & LED matrix', desc: 'Adaptive LED-matrix headlights and an active front splitter channel air into downforce the faster you go.' },
+      { tag: 'Aerodynamics', title: 'Wind-shaped flanks', desc: 'Every surface is sculpted in the tunnel; deep side intakes feed cool air to the mid-mounted engine.' },
+      { tag: 'Cockpit', title: 'Driver-focused dash', desc: 'A wraparound digital cluster and a squared-off wheel keep every control a fingertip away at 300 km/h.' },
+    ],
   },
   {
-    p: 0.41, pos: [3.5, 0.5, 2.6], tgt: [1.0, 0.35, 1.7], phase: 'Exterior',
-    card: { n: '02', side: 'right', tag: 'Wheels', title: 'Forged 20″ alloys', desc: 'Lightweight forged wheels wrap carbon-ceramic brakes — relentless, fade-free stopping, lap after lap.' },
+    color: '#15335f', name: 'Blu Notte', code: 'AV-02',
+    features: [
+      { tag: 'Front', title: 'Carbon aero splitter', desc: 'A full-carbon front end slices the air and feeds the brakes — track focus wearing a tailored suit.' },
+      { tag: 'Wheels', title: 'Forged 20″ alloys', desc: 'Lightweight forged wheels wrap carbon-ceramic brakes — relentless, fade-free stopping, lap after lap.' },
+      { tag: 'Cabin', title: 'Midnight leather', desc: 'Hand-stitched navy leather over carbon shells — a cabin that feels like a private jet at speed.' },
+    ],
   },
   {
-    p: 0.51, pos: [5.8, 1.0, 0.1], tgt: [0, 0.6, 0], phase: 'Exterior',
-    card: { n: '03', side: 'left', tag: 'Aerodynamics', title: 'Wind-shaped flanks', desc: 'Every surface is sculpted in the tunnel; deep side intakes feed cool air to the mid-mounted engine.' },
+    color: '#c7ccd3', name: 'Argento', code: 'AV-03',
+    features: [
+      { tag: 'Silhouette', title: 'Liquid-silver body', desc: 'A mirror-polish paint that pours light along every crease — the shape reads even in the dark.' },
+      { tag: 'Rear', title: 'Active wing & quad exhaust', desc: 'A deployable rear wing trims drag on the straights; quad titanium pipes give it an unmistakable voice.' },
+      { tag: 'Interior', title: 'Driver halo', desc: 'Ambient light rings the cabin; the seats hug you through corners without fatigue on the long drive home.' },
+    ],
   },
-  {
-    p: 0.61, pos: [2.5, 0.95, -5.5], tgt: [0, 0.7, -2.2], phase: 'Exterior',
-    card: { n: '04', side: 'right', tag: 'Rear', title: 'Active wing & quad exhaust', desc: 'A deployable rear wing trims drag on the straights; quad titanium pipes give it an unmistakable voice.' },
-  },
-  { p: 0.70, pos: [2.7, 1.35, 1.7], tgt: [0, 0.95, 0.4], phase: 'Interior' },
-  {
-    p: 0.79, pos: [1.35, 1.5, 1.0], tgt: [-0.2, 0.98, 0.1], phase: 'Interior',
-    card: { n: '05', side: 'left', tag: 'Cockpit', title: 'Driver-focused dash', desc: 'A wraparound digital cluster and a squared-off wheel keep every control a fingertip away at 300 km/h.' },
-  },
-  {
-    p: 0.87, pos: [1.5, 1.55, -0.5], tgt: [-0.1, 0.9, -0.3], phase: 'Interior',
-    card: { n: '06', side: 'right', tag: 'Cabin', title: 'Carbon racing seats', desc: 'Hand-stitched leather over carbon shells holds you through corners — without fatigue on the long drive home.' },
-  },
-  {
-    p: 0.95, pos: [4.0, 1.5, 7.2], tgt: [0, 0.5, 0], phase: 'The Collection',
-    card: { n: '—', side: 'left', tag: 'Next', title: 'One of six in the collection', desc: 'Each glass pavilion reveals another machine. In the full build, keep scrolling to meet the next.' },
-  },
-  { p: 1.00, pos: [2.2, 3.4, 18], tgt: [0, 1.6, 4], phase: 'The Collection' },
 ]
 
-// cloth pulls off after you are inside the room
-export const CLOTH = { start: 0.14, end: 0.25 }
+export const SP = 19            // z spacing between rooms
+export const roomZ = (i) => -i * SP
+
+function build() {
+  const s = []
+  // establishing: outside, looking into the lit showroom
+  s.push({ pos: [3, 4.2, roomZ(0) + 24], tgt: [0, 2.6, roomZ(0) + 8], phase: 'Entering the Showroom', room: -1 })
+  s.push({ pos: [1.4, 3.0, roomZ(0) + 16], tgt: [0, 1.8, roomZ(0) + 4], phase: 'Entering the Showroom', room: -1 })
+
+  ROOMS.forEach((room, i) => {
+    const z = roomZ(i)
+    s.push({ pos: [2.6, 3.1, z + 12.5], tgt: [0, 1.4, z + 5], phase: room.name, room: i })                                   // approach (doors open)
+    s.push({ pos: [4.5, 1.7, z + 6.0], tgt: [0, 0.6, z + 0.4], phase: room.name, room: i })                                  // enter / reveal
+    s.push({ pos: [1.9, 0.75, z + 5.6], tgt: [0, 0.6, z + 2.4], phase: room.name, room: i, card: room.features[0], carN: i }) // front
+    s.push({ pos: [5.6, 1.0, z + 0.1], tgt: [0, 0.6, z], phase: room.name, room: i, card: room.features[1], carN: i })        // side / aero
+    s.push({ pos: [1.35, 1.5, z + 1.0], tgt: [-0.2, 0.98, z + 0.1], phase: room.name, room: i, card: room.features[2], carN: i }) // interior
+    s.push({ pos: [1.0, 2.7, z - 8], tgt: [0, 1.5, z - 15], phase: room.name, room: i, exit: true })                          // exit (doors close) → next
+  })
+  // final: pull back for the collection
+  const lastZ = roomZ(ROOMS.length - 1)
+  s.push({ pos: [2.5, 3.6, lastZ - 12], tgt: [0, 1.6, lastZ - 4], phase: 'The Collection', room: -1 })
+
+  const n = s.length
+  s.forEach((st, idx) => (st.p = idx / (n - 1)))
+  return s
+}
+
+export const STOPS = build()
+
+// per-room door open window [openP, closeP] (doors swing open across the room's stops)
+export const ROOM_DOORS = ROOMS.map((_, i) => {
+  const mine = STOPS.filter((s) => s.room === i)
+  return { open: mine[0].p - 0.02, close: mine[mine.length - 1].p }
+})

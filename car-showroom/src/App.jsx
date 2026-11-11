@@ -1,6 +1,7 @@
 import { Suspense, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { initScroll } from './scroll.js'
+import { ROOMS, roomZ, STOPS } from './data.js'
 import Showroom from './three/Showroom.jsx'
 import Car from './three/Car.jsx'
 import Rig from './three/Rig.jsx'
@@ -9,19 +10,19 @@ import Loader from './components/Loader.jsx'
 
 export default function App() {
   useEffect(() => initScroll(), [])
+  // scroll length scales with the number of rooms
+  const height = 140 + ROOMS.length * 190
 
   return (
     <>
       <div className="stage">
-        <Canvas
-          shadows
-          dpr={[1, 2]}
-          camera={{ position: [2.6, 3.7, 21.5], fov: 42 }}
-          gl={{ antialias: true, toneMapping: 4 /* ACESFilmic */, toneMappingExposure: 1.05 }}
-        >
+        <Canvas shadows dpr={[1, 2]} camera={{ position: STOPS[0].pos, fov: 42 }}
+          gl={{ antialias: true, toneMapping: 4, toneMappingExposure: 1.05 }}>
           <Suspense fallback={null}>
             <Showroom />
-            <Car />
+            {ROOMS.map((room, i) => (
+              <Car key={i} color={room.color} position={[0, 0, roomZ(i)]} />
+            ))}
           </Suspense>
           <Rig />
         </Canvas>
@@ -29,9 +30,7 @@ export default function App() {
 
       <Overlay />
       <Loader />
-
-      {/* tall scroll driver — creates the scroll length for the journey */}
-      <div className="scroll-driver" style={{ height: '720vh' }} />
+      <div className="scroll-driver" style={{ height: `${height}vh` }} />
     </>
   )
 }

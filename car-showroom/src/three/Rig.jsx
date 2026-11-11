@@ -25,8 +25,8 @@ export default function Rig() {
     desPos.current.set(...s0.pos).lerp(b.set(...s1.pos), lt)
     desTgt.current.set(...s0.tgt).lerp(a.set(...s1.tgt), lt)
 
-    camera.position.lerp(desPos.current, 0.07)
-    target.current.lerp(desTgt.current, 0.08)
+    camera.position.lerp(desPos.current, 0.12)
+    target.current.lerp(desTgt.current, 0.13)
     camera.lookAt(target.current)
   })
   return null

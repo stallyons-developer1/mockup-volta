@@ -29,12 +29,18 @@ function Bar({ position, args }) {
 
 export default function Showroom() {
   const doorL = useRef(), doorR = useRef()
+  const keyLight = useRef()
 
   useFrame(() => {
     // glass room doors swing open during the entry beat (scroll 0.015 → 0.11)
     const o = smooth(clamp01((scroll.p - 0.015) / 0.095))
     if (doorL.current) doorL.current.rotation.y = -o * 1.9
     if (doorR.current) doorR.current.rotation.y = o * 1.9
+    // THE REVEAL: car emerges from shadow as the key spotlight blooms on (0.13 → 0.27)
+    if (keyLight.current) {
+      const rev = smooth(clamp01((scroll.p - 0.13) / 0.14))
+      keyLight.current.intensity = 26 + rev * 360
+    }
   })
 
   const RW = 7, RD = 8, RH = 5 // glass room half-width, half-depth, height
@@ -47,7 +53,7 @@ export default function Showroom() {
 
       {/* lights */}
       <ambientLight intensity={0.22} />
-      <spotLight position={[0, 9, 2]} angle={0.55} penumbra={1} intensity={360} distance={40} castShadow
+      <spotLight ref={keyLight} position={[0, 9, 2]} angle={0.55} penumbra={1} intensity={26} distance={40} castShadow
         shadow-mapSize={[2048, 2048]} shadow-bias={-0.0004} color="#fff6ec" />
       <spotLight position={[-8, 6, -7]} angle={0.7} penumbra={1} intensity={130} color="#8fb0ff" />
       <spotLight position={[8, 5, 7]} angle={0.7} penumbra={1} intensity={130} color="#ffd39a" />

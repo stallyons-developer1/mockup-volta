@@ -27,7 +27,7 @@ export default function Overlay() {
       <div className="intro" style={{ opacity: intro ? 1 : 0, transition: 'opacity .6s' }}>
         <span className="intro__eyebrow">AUROM Collection — Bengaluru</span>
         <h1 className="intro__title">The Glass<br />Pavilions.</h1>
-        <p className="intro__sub">Six machines. Six rooms of light. Scroll to step inside and uncover the first.</p>
+        <p className="intro__sub">Six machines. Six rooms of light. Scroll to step inside and meet the first.</p>
         <span className="intro__cue"><i />Scroll to enter</span>
       </div>
 

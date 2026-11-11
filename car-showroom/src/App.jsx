@@ -16,7 +16,7 @@ export default function App() {
         <Canvas
           shadows
           dpr={[1, 2]}
-          camera={{ position: [0.2, 3.4, 11.5], fov: 42 }}
+          camera={{ position: [2.6, 3.7, 21.5], fov: 42 }}
           gl={{ antialias: true, toneMapping: 4 /* ACESFilmic */, toneMappingExposure: 1.05 }}
         >
           <Suspense fallback={null}>

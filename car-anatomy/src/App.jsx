@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef, useState } from 'react'
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment, ContactShadows } from '@react-three/drei'
 import { initScroll, onProgress } from './scroll.js'
@@ -6,6 +6,7 @@ import Bugatti from './three/Bugatti.jsx'
 import Rig from './Rig.jsx'
 import BottomNav from './components/BottomNav.jsx'
 import Menu from './components/Menu.jsx'
+import Loader from './components/Loader.jsx'
 import { BRAND, HERO, OVERVIEW, STATS, DIS_HEAD, DIS_CARDS, ASSEMBLY, SPECS, FOOTER } from './site.js'
 
 // Clean, bright seamless studio — the car sits in light space, camera does the drama.
@@ -40,6 +41,7 @@ export default function App() {
   const [launched, setLaunched] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const heroRef = useRef()
+  const onLoaded = useCallback(() => setLaunched(true), [])
 
   useEffect(() => {
     document.body.classList.toggle('locked', !launched)
@@ -67,13 +69,8 @@ export default function App() {
         </Canvas>
       </div>
 
-      {/* launch gate */}
-      <div className={`gate ${launched ? 'gate--gone' : ''}`}>
-        <button className="gate__btn" onClick={() => setLaunched(true)}>
-          <span className="gate__sq" />
-          <span className="gate__label">Launch Experience</span>
-        </button>
-      </div>
+      {/* auto % loader — reveals the site when it reaches 100% */}
+      <Loader launched={launched} onDone={onLoaded} />
 
       {/* top bar */}
       <header className="topbar">

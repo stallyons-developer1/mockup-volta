@@ -2,27 +2,24 @@ import * as THREE from 'three'
 const smooth = (t) => t * t * (3 - 2 * t)
 const clamp01 = (x) => Math.min(1, Math.max(0, x))
 
-// Each stop: scroll p, explode amount, focused part, camera pos + look-at, and a detail card.
-// Camera targets sit at each part's EXPLODED position (base + offset).
+// Bugatti EB110 — assemble ▸ disassemble ▸ orbit ▸ reassemble.
+// The model's parts are not individually named, so the camera orbits the
+// exploded machine instead of focusing single components. explode: 0 = whole car.
 export const STEPS = [
-  { p: 0.00, explode: 0, focus: null, cam: [5.2, 3.0, 6.8], tgt: [0, 0.8, 0],
-    card: { side: 'left', tag: 'The Machine', title: 'Fully assembled', desc: 'One sculpture of carbon and alloy. Scroll to take it apart, piece by piece.' } },
-  { p: 0.16, explode: 1, focus: null, cam: [6.2, 4.0, 7.0], tgt: [0, 0.9, 0],
-    card: { side: 'left', tag: 'Exploded view', title: 'Twenty-one components', desc: 'Every panel, wheel and system suspended in mid-air. Keep scrolling to meet each one.' } },
-  { p: 0.30, explode: 1, focus: 'engine-block', cam: [2.4, 0.9, 3.4], tgt: [0, 0.26, 1.35],
-    card: { side: 'right', tag: 'Powertrain', title: 'Mid-mounted engine', desc: 'Exposed cylinders sit low between the axles — mass centred for balance you feel at the first corner.' } },
-  { p: 0.44, explode: 1, focus: 'front-left-wheel', cam: [-3.4, 0.9, 2.6], tgt: [-1.77, 0.42, 1.32],
-    card: { side: 'left', tag: 'Wheels & brakes', title: 'Forged alloy wheel', desc: 'Low unsprung mass over a carbon-ceramic brake — a ten-spoke forged wheel that never fades.' } },
-  { p: 0.58, explode: 1, focus: 'dashboard-steering', cam: [1.5, 1.1, 3.0], tgt: [0, 0.7, 1.25],
-    card: { side: 'right', tag: 'Cockpit', title: 'Driver-focused dash', desc: 'A squared-off wheel and a digital instrument cluster keep every control a fingertip away.' } },
-  { p: 0.72, explode: 1, focus: 'driver-seat', cam: [-2.4, 0.7, 1.0], tgt: [-0.77, 0.18, -0.25],
-    card: { side: 'left', tag: 'Interior', title: 'Carbon bucket seats', desc: 'One-piece shells wrapped in hand-stitched leather — they hold you through the corners.' } },
-  { p: 0.85, explode: 1, focus: 'rear-spoiler', cam: [2.6, 2.2, -3.7], tgt: [0, 1.87, -2.2],
-    card: { side: 'right', tag: 'Aerodynamics', title: 'Active rear wing', desc: 'Trims drag on the straights, then bites down for grip under heavy braking.' } },
-  { p: 0.95, explode: 1, focus: 'body-shell', cam: [4.0, 2.8, 4.6], tgt: [0, 1.41, 0],
-    card: { side: 'left', tag: 'Bodywork', title: 'Monocoque shell', desc: 'A single stressed body — featherlight, yet brutally rigid. The soul of the silhouette.' } },
-  { p: 1.00, explode: 0, focus: null, cam: [5.2, 3.0, 6.8], tgt: [0, 0.8, 0],
-    card: { side: 'left', tag: 'Reassembled', title: 'One machine, again', desc: 'Every part back in its place. Scroll up to take it apart once more.' } },
+  { p: 0.00, explode: 0, focus: null, cam: [5.0, 2.2, 6.0], tgt: [0, 0.6, 0],
+    card: { side: 'left', tag: '1992 · Campogalliano', title: 'Bugatti EB110 Super Sport', desc: 'A quad-turbo V12, carbon tub, all-wheel drive. Scroll to take it apart — and watch it build itself back.' } },
+  { p: 0.16, explode: 1, focus: null, cam: [7.2, 3.6, 7.4], tgt: [0, 0.9, 0],
+    card: { side: 'left', tag: 'Disassembly', title: 'Sixty-one pieces', desc: 'Every panel, light, wheel and vent lifts away from the body and hangs in the air.' } },
+  { p: 0.33, explode: 1, focus: null, cam: [8.6, 1.8, 0.4], tgt: [0, 0.8, 0],
+    card: { side: 'right', tag: 'Profile', title: 'Read the silhouette', desc: 'Short overhangs, a low cab-forward glasshouse — the shape that chased 350 km/h in the early ’90s.' } },
+  { p: 0.50, explode: 1, focus: null, cam: [0.3, 2.6, 8.4], tgt: [0, 0.85, 0],
+    card: { side: 'left', tag: 'Anatomy', title: 'The whole machine, apart', desc: 'Seen head-on, the components float in formation — the full parts list of a hand-built supercar.' } },
+  { p: 0.66, explode: 1, focus: null, cam: [4.2, 6.2, 5.0], tgt: [0, 0.5, 0],
+    card: { side: 'right', tag: 'Overhead', title: 'Layout from above', desc: 'Mid-mounted mass, four driven wheels, bodywork pulled tight over the tub. Now it reassembles.' } },
+  { p: 0.82, explode: 0, focus: null, cam: [-5.4, 2.4, 5.6], tgt: [0, 0.6, 0],
+    card: { side: 'left', tag: 'Reassembly', title: 'Back as one', desc: 'Each piece slides home. The panel gaps close and the car is whole again.' } },
+  { p: 1.00, explode: 0, focus: null, cam: [4.4, 1.5, 5.4], tgt: [0, 0.5, 0],
+    card: { side: 'right', tag: 'EB110 SS', title: 'Ready to run', desc: 'Assembled, settled on its wheels. Scroll back up to pull it apart once more.' } },
 ]
 
 const v = (a, b, t) => a.map((x, i) => THREE.MathUtils.lerp(x, b[i], t))

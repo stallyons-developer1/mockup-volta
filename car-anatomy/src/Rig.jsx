@@ -1,24 +1,24 @@
 import { useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
-import { scroll } from './scroll.js'
-import { sample } from './data.js'
+import { stage, samplePose } from './site.js'
 
 export default function Rig() {
   const { camera } = useThree()
-  const tgt = useRef(new THREE.Vector3(0, 0.8, 0))
+  const look = useRef(new THREE.Vector3(0, 0.6, 0))
   const dp = new THREE.Vector3(), dt = new THREE.Vector3()
 
-  useFrame((state) => {
-    const s = sample(scroll.p)
-    dp.set(s.cam[0], s.cam[1], s.cam[2])
-    dt.set(s.tgt[0], s.tgt[1], s.tgt[2])
-    // subtle parallax from pointer
-    dp.x += state.pointer.x * 0.5
-    dp.y += state.pointer.y * 0.35
-    camera.position.lerp(dp, 0.08)
-    tgt.current.lerp(dt, 0.09)
-    camera.lookAt(tgt.current)
+  useFrame((state, dt2) => {
+    const p = samplePose(stage.t)
+    const k = 1 - Math.pow(0.0001, dt2) // frame-rate independent damping
+    dp.set(p.cam[0], p.cam[1], p.cam[2])
+    // gentle pointer parallax so the shot feels alive
+    dp.x += state.pointer.x * 0.35
+    dp.y += state.pointer.y * 0.22
+    dt.set(p.tgt[0], p.tgt[1], p.tgt[2])
+    camera.position.lerp(dp, k)
+    look.current.lerp(dt, k)
+    camera.lookAt(look.current)
   })
   return null
 }

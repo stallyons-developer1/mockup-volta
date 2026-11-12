@@ -135,14 +135,19 @@ a{color:inherit;text-decoration:none}
 
 /* ---- responsive ---- */
 @media (max-width:860px){
+  /* portrait: the car is tilted into the upper half (Rig), text/cards stack at the bottom */
   .panel,.panel--right{max-width:none;text-align:left;margin:0}
   .panel--right .lead{margin-left:0}
+  .sec{align-items:flex-end;padding-bottom:10vh}
+  .sec--hero{align-items:flex-start;padding-bottom:64px}
+  .sec--studio .title{font-size:1.9rem}
   .hero__eyebrow{text-align:left}
   .statgrid{grid-template-columns:1fr 1fr;gap:28px 20px}
   .featuring{grid-column:1/-1}
-  .sec{align-items:flex-end;padding-bottom:16vh}
   .sec--dis{padding:0}
-  .dis-beat{justify-content:flex-start}
+  .dis-beat{align-items:flex-end;justify-content:flex-start;padding-bottom:13vh}
+  .card{max-width:none;padding:22px 24px 22px}
+  .card__title{font-size:1.4rem}
   /* solid top strip on mobile: the z40 bar hides full-width cards scrolling under the logo
      (desktop keeps the elegant mix-blend-difference) */
   .topbar{mix-blend-mode:normal;color:#fff;background:linear-gradient(#000 0%,#000 62%,transparent)}

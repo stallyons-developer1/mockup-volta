@@ -5,6 +5,7 @@ import { initScroll, onProgress } from './scroll.js'
 import Bugatti from './three/Bugatti.jsx'
 import Rig from './Rig.jsx'
 import BottomNav from './components/BottomNav.jsx'
+import Menu from './components/Menu.jsx'
 import { BRAND, HERO, OVERVIEW, STATS, DIS_HEAD, DIS_CARDS, ASSEMBLY, SPECS, FOOTER } from './site.js'
 
 // Clean, bright seamless studio — the car sits in light space, camera does the drama.
@@ -37,6 +38,7 @@ const Mark = () => (
 
 export default function App() {
   const [launched, setLaunched] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const heroRef = useRef()
 
   useEffect(() => {
@@ -90,7 +92,7 @@ export default function App() {
         </section>
 
         {/* 2 · OVERVIEW — bright studio, car left */}
-        <section className="sec sec--studio">
+        <section className="sec sec--studio" id="overview">
           <div className="panel panel--right" data-stage>
             <span className="eyebrow">{OVERVIEW.eyebrow}</span>
             <h2 className="title">{OVERVIEW.title[0]}<br />{OVERVIEW.title[1]}</h2>
@@ -112,7 +114,7 @@ export default function App() {
         </section>
 
         {/* 4 · ANATOMY — camera flies into subsystems; dark cards read on any lighting */}
-        <section className="sec sec--dis">
+        <section className="sec sec--dis" id="anatomy">
           <div className="dis-head">
             <div className="ghost" style={{ top: '18%' }}>{DIS_HEAD.ghost}</div>
             <span className="eyebrow">{DIS_HEAD.eyebrow}</span>
@@ -141,7 +143,7 @@ export default function App() {
         </section>
 
         {/* 6 · SPECS (light, no car) */}
-        <section className="sec--specs sec--light">
+        <section className="sec--specs sec--light" id="specs">
           <div className="ghost" style={{ top: '8%', color: 'rgba(0,0,0,.05)' }}>{SPECS.ghost}</div>
           <div className="specwrap">
             <span className="eyebrow">Full specification</span>
@@ -155,7 +157,7 @@ export default function App() {
         </section>
 
         {/* 7 · FOOTER (black, small car right) */}
-        <footer className="footer">
+        <footer className="footer" id="contact">
           <div className="footer__word" data-stage>{BRAND}</div>
           <div className="footer__grid">
             <div className="footer__col">
@@ -175,7 +177,8 @@ export default function App() {
         </footer>
       </main>
 
-      <BottomNav />
+      <BottomNav onMenu={() => setMenuOpen((o) => !o)} menuOpen={menuOpen} />
+      <Menu open={menuOpen} onClose={() => setMenuOpen(false)} />
     </>
   )
 }

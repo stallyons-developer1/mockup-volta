@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { onProgress } from '../scroll.js'
 import { CHAPTERS } from '../site.js'
 
-export default function BottomNav() {
+export default function BottomNav({ onMenu, menuOpen }) {
   const [p, setP] = useState(0)
   useEffect(() => onProgress(setP), [])
   const active = p < 0.5 ? 0 : 1
@@ -15,7 +15,9 @@ export default function BottomNav() {
           {c}<span>{i === 0 ? 'The car' : 'The build'}</span>
         </div>
       ))}
-      <div className="bottomnav__menu" aria-label="menu"><i /><i /><i /></div>
+      <button className={`bottomnav__menu ${menuOpen ? 'is-open' : ''}`} onClick={onMenu} aria-label="Menu" aria-expanded={menuOpen}>
+        <i /><i /><i />
+      </button>
     </nav>
   )
 }
